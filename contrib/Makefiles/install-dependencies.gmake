@@ -54,48 +54,59 @@ sourceforge = http://downloads.sourceforge.net/project
 
 # functions for building software from sourceforge
 nproc := $(shell getconf _NPROCESSORS_ONLN)
-sfget  = mkdir -p '${TMP}' && cd '${TMP}' && wget -qO- ${URL} | tar xz 
+sfget = mkdir -p '${TMP}' && cd '${TMP}' && aria2c -x16 ${URL}
+file_extract = cd '${TMP}' && tar -xzf $(FNAME) 
 configure-make-install  = cd '$1' && ./configure --prefix='${PREFIX}' 
 configure-make-install += && make -j${nproc} && make install
 
 # XMLRPC-C for moses server
-xmlrpc: URL=$(sourceforge)/xmlrpc-c/Xmlrpc-c%20Super%20Stable/1.33.17/xmlrpc-c-1.33.17.tgz
+xmlrpc: FNAME=xmlrpc-c-1.33.17.tgz
+xmlrpc: URL=$(sourceforge)/xmlrpc-c/Xmlrpc-c%20Super%20Stable/1.33.17/$(FNAME)
 xmlrpc: TMP=$(CWD)/build/xmlrpc
 xmlrpc: override PREFIX=${XMLRPC_PREFIX}
 xmlrpc: | $(call safepath,${XMLRPC_PREFIX}/bin/xmlrpc-c-config)
 $(call safepath,${XMLRPC_PREFIX}/bin/xmlrpc-c-config):
 	$(sfget)
+	$(file_extract)
 	$(call configure-make-install,${TMP}/xmlrpc-c-1.33.17)
 	rm -rf ${TMP}
 
 # CMPH for CompactPT
-cmph: URL=$(sourceforge)/cmph/cmph/cmph-2.0.tar.gz
+cmph: FNAME=cmph-2.0.tar.gz
+cmph: URL=$(sourceforge)/cmph/cmph/$(FNAME)
 cmph: TMP=$(CWD)/build/cmph
 cmph: override PREFIX=${CMPH_PREFIX}
 cmph: | $(call safepath,${CMPH_PREFIX}/bin/cmph)
 $(call safepath,${CMPH_PREFIX}/bin/cmph):
 	$(sfget)
+	$(file_extract)
 	$(call configure-make-install,${TMP}/cmph-2.0)
 	rm -rf ${TMP}
 
 # irstlm for irstlm
-irstlm: URL=$(sourceforge)/irstlm/irstlm/irstlm-5.80/irstlm-5.80.08.tgz
+irstlm: FNAME=irstlm-5.80.08.tgz
+irstlm: URL=$(sourceforge)/irstlm/irstlm/irstlm-5.80/$(FNAME)
 irstlm: TMP=$(CWD)/build/irstlm
 irstlm: VERSION=$(basename $(notdir $(irstlm_url)))
 irstlm: override PREFIX=${IRSTLM_PREFIX}
 irstlm: | $(call safepath,$(IRSTLM_PREFIX)/bin/build-lm.sh)
 $(call safepath,$(IRSTLM_PREFIX)/bin/build-lm.sh):
 	$(sfget)
+	$(file_extract)
 	cd $$(find '${TMP}' -name trunk) && ./regenerate-makefiles.sh \
 	&& ./configure --prefix='${PREFIX}' && make -j${nproc} && make install -j${nproc}
 	rm -rf ${TMP}
 
-# boost 
-boost: URL=http://sourceforge.net/projects/boost/files/boost/1.63.0/boost_1_63_0.tar.gz/download
+# boost
+boost: VER=1.63.0
+boost: NAME=boost_1_63_0
+boost: FNAME=$(NAME).tar.gz
+boost: URL=https://sourceforge.net/projects/boost/files/boost/${VER}/${FNAME}/download
 boost: TMP=$(CWD)/build/boost
 boost: override PREFIX=${BOOST_PREFIX}
 boost: | $(call safepath,${BOOST_PREFIX}/include/boost)
 $(call safepath,${BOOST_PREFIX}/include/boost):
 	$(sfget)
-	cd '${TMP}/boost_1_63_0' && ./bootstrap.sh && ./b2 --prefix=${PREFIX} -j${nproc} --layout=system link=static install
+	$(file_extract)
+	cd '${TMP}/${NAME}' && ./bootstrap.sh && ./b2 --prefix=${PREFIX} -j${nproc} --layout=system link=static install
 	rm -rf ${TMP}
