@@ -98,8 +98,8 @@ $(call safepath,$(IRSTLM_PREFIX)/bin/build-lm.sh):
 	rm -rf ${TMP}
 
 # boost
-boost: VER=1.66.0
-boost: NAME=boost_1_66_0
+boost: VER=1.63.0
+boost: NAME=boost_1_63_0
 boost: FNAME=$(NAME).tar.gz
 boost: URL=https://sourceforge.net/projects/boost/files/boost/${VER}/${FNAME}/download
 boost: TMP=$(CWD)/build/boost
