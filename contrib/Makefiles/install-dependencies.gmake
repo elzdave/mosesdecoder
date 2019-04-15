@@ -60,15 +60,16 @@ configure-make-install  = cd '$1' && ./configure --prefix='${PREFIX}'
 configure-make-install += && make -j${nproc} && make install
 
 # XMLRPC-C for moses server
-xmlrpc: FNAME=xmlrpc-c-1.33.17.tgz
-xmlrpc: URL=$(sourceforge)/xmlrpc-c/Xmlrpc-c%20Super%20Stable/1.33.17/$(FNAME)
+xmlrpc: VER=1.51.03
+xmlrpc: FNAME=xmlrpc-c-$(VER).tgz
+xmlrpc: URL=$(sourceforge)/xmlrpc-c/Xmlrpc-c%20Super%20Stable/$(VER)/$(FNAME)
 xmlrpc: TMP=$(CWD)/build/xmlrpc
 xmlrpc: override PREFIX=${XMLRPC_PREFIX}
 xmlrpc: | $(call safepath,${XMLRPC_PREFIX}/bin/xmlrpc-c-config)
 $(call safepath,${XMLRPC_PREFIX}/bin/xmlrpc-c-config):
 	$(sfget)
 	$(file_extract)
-	$(call configure-make-install,${TMP}/xmlrpc-c-1.33.17)
+	$(call configure-make-install,${TMP}/xmlrpc-c-$(VER))
 	rm -rf ${TMP}
 
 # CMPH for CompactPT
@@ -98,8 +99,8 @@ $(call safepath,$(IRSTLM_PREFIX)/bin/build-lm.sh):
 	rm -rf ${TMP}
 
 # boost
-boost: VER=1.66.0
-boost: NAME=boost_1_66_0
+boost: VER=1.69.0
+boost: NAME=boost_1_69_0
 boost: FNAME=$(NAME).tar.gz
 boost: URL=https://sourceforge.net/projects/boost/files/boost/${VER}/${FNAME}/download
 boost: TMP=$(CWD)/build/boost
