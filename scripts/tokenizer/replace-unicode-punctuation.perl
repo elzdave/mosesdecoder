@@ -6,6 +6,11 @@
 use warnings;
 use strict;
 
+while (@ARGV) {
+    $_ = shift;
+    /^-b$/ && ($| = 1, next); # not buffered (flush each line)
+}
+
 #binmode(STDIN, ":utf8");
 #binmode(STDOUT, ":utf8");
 
@@ -24,7 +29,7 @@ while(<STDIN>) {
   s/！/\!/g;
   s/（/\(/g;
   s/；/;/g;
-  s/１/"/g;
+  s/１/1/g;
   s/」/"/g;
   s/「/"/g;
   s/０/0/g;

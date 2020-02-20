@@ -20,6 +20,7 @@ class ArcLists;
 
 typedef Array<const HypothesisBase*> Hypotheses;
 
+////////////////////////////////////////////////////
 class HypothesisColl
 {
 public:
@@ -54,7 +55,7 @@ public:
 
 protected:
   typedef boost::unordered_set<const HypothesisBase*,
-          UnorderedComparer<HypothesisBase>, UnorderedComparer<HypothesisBase>,
+		  UnorderedComparer<HypothesisBase>, UnorderedComparer<HypothesisBase>,
           MemPoolAllocator<const HypothesisBase*> > _HCType;
 
   _HCType m_coll;

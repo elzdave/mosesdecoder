@@ -2,15 +2,15 @@
 # Makefile for installing 3rd-party software required to build Moses.
 # author: Ulrich Germann
 #
-# run as 
-#    make -f /path/to/this/file 
+# run as
+#    make -f /path/to/this/file
 #
 # By default, everything will be installed in ./opt.
 # If you want an alternative destination specify PREFIX=... with the make call
 #
 #    make -f /path/to/this/file PREFIX=/where/to/install/things
 #
-# The name of the current directory must not contain spaces! The build scripts for 
+# The name of the current directory must not contain spaces! The build scripts for
 # at least some of the external software can't handle them.
 
 space :=
