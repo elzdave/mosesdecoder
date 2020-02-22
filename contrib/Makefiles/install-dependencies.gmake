@@ -60,7 +60,7 @@ configure-make-install  = cd '$1' && ./configure --prefix='${PREFIX}'
 configure-make-install += && make -j${nproc} && make install
 
 # XMLRPC-C for moses server
-xmlrpc: VER=1.51.03
+xmlrpc: VER=1.33.18
 xmlrpc: FNAME=xmlrpc-c-$(VER).tgz
 xmlrpc: URL=$(sourceforge)/xmlrpc-c/Xmlrpc-c%20Super%20Stable/$(VER)/$(FNAME)
 xmlrpc: TMP=$(CWD)/build/xmlrpc
